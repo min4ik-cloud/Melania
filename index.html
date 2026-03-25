@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIN_4IK - SYSTEM HACK</title>
+
+<style>
+body {
+    margin: 0;
+    background: black;
+    color: #00ff00;
+    font-family: monospace;
+    overflow: hidden;
+}
+
+/* Matrix фон */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+/* Контейнер контента */
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+/* Терминал */
+#terminal {
+    padding: 20px;
+    white-space: pre-wrap;
+    line-height: 1.4;
+}
+
+/* Кнопки */
+.btn {
+    display: inline-block;
+    margin: 8px;
+    padding: 10px 20px;
+    border: 1px solid #00ff00;
+    border-radius: 6px;
+    color: #00ff00;
+    text-decoration: none;
+    transition: 0.3s;
+    font-family: monospace;
+}
+
+.btn:hover {
+    background: #00ff00;
+    color: black;
+    box-shadow: 0 0 15px #00ff00;
+}
+
+/* Мигающий курсор */
+.cursor {
+    display: inline-block;
+    width: 10px;
+    background-color: #00ff00;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50%, 100% { background-color: #00ff00; }
+    25%, 75% { background-color: black; }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="container">
+    <div id="terminal"></div>
+
+    <div style="margin-top:20px;">
+        <a class="btn" href="https://t.me/min_4ik">Telegram</a>
+        <a class="btn" href="https://www.youtube.com/@min4ik">YouTube</a>
+        <a class="btn" href="https://discord.com/users/424203787234967564">Discord</a>
+        <a class="btn" href="https://www.twitch.tv/min_4ik">Twitch</a>
+        <a class="btn" href="https://www.tiktok.com/@min_44ik">TikTok</a>
+        <a class="btn" href="https://vk.com/min_4ik">ВКонтакте</a>
+    </div>
+</div>
+
+<!-- Музыка -->
+<audio id="music" autoplay loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// ===== MATRIX ЭФФЕКТ =====
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const letters = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const fontSize = 14;
+const columns = canvas.width / fontSize;
+const drops = Array.from({length: columns}, () => 1);
+
+function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#00ff00";
+    ctx.font = fontSize + "px monospace";
+
+    drops.forEach((y, i) => {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, y * fontSize);
+        drops[i] = y * fontSize > canvas.height && Math.random() > 0.975 ? 0 : y + 1;
+    });
+
+    requestAnimationFrame(drawMatrix);
+}
+
+drawMatrix();
+
+// ===== ТЕРМИНАЛ ПЕЧАТАЮЩИЙСЯ =====
+const terminal = document.getElementById("terminal");
+const lines = [
+    "[SYSTEM ONLINE]",
+    "[ACCESSING MIN_4IK NETWORK...]",
+    "[FIREWALL BYPASSED]",
+    "[LOADING USER DATA...]",
+    "[SUCCESS]",
+    "[WELCOME, OPERATOR]"
+];
+
+let i = 0;
+
+function typeLine(line, callback) {
+    let j = 0;
+    const interval = setInterval(() => {
+        terminal.innerHTML += line[j];
+        j++;
+        if (j >= line.length) {
+            clearInterval(interval);
+            terminal.innerHTML += "\n";
+            if (callback) callback();
+        }
+    }, 50);
+}
+
+function typeLines() {
+    if (i < lines.length) {
+        typeLine(lines[i], () => { i++; typeLines(); });
+    } else {
+        terminal.innerHTML += '<span class="cursor"></span>';
+    }
+}
+
+typeLines();
+
+// ===== МУЗЫКА =====
+const music = document.getElementById("music");
+document.body.addEventListener("click", () => {
+    if (music.paused) music.play();
+});
+</script>
+
+</body>
+</html>
